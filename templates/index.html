@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TO-DO 캘린더</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body class="bg-light">
+    <div class="container py-3">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4>TO-DO 캘린더</h4>
+        <div>
+          {% set prev_month = (month - 1) or 12 %}
+          {% set prev_year = year - 1 if month == 1 else year %}
+          {% set next_month = (month % 12) + 1 %}
+          {% set next_year = year + 1 if month == 12 else year %}
+          <a class="btn btn-sm btn-outline-primary" href="/?year={{prev_year}}&month={{prev_month}}">◀ 이전</a>
+          <span class="mx-2">{{ year }}년 {{ month }}월</span>
+          <a class="btn btn-sm btn-outline-primary" href="/?year={{next_year}}&month={{next_month}}">다음 ▶</a>
+        </div>
+      </div>
+
+      <div class="calendar shadow-sm">
+        <div class="d-flex weekhead">
+          <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
+        </div>
+        {% for week in month_days %}
+        <div class="d-flex week">
+          {% for day in week %}
+          <div class="day-cell {% if day.month != month %}muted{% endif %}" data-date="{{ day.isoformat() }}">
+            <div class="date-num">{{ day.day }}</div>
+            {% set key = day.isoformat() %}
+            {% if key in todos_map %}
+            <div class="badge bg-success todo-count">{{ todos_map[key] }}</div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="todoModal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modalTitle">일별 To-Do</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <ul class="list-group mb-2" id="todoList"></ul>
+            <div class="input-group">
+              <input id="todoInput" type="text" class="form-control" placeholder="새 To-Do 입력">
+              <button id="addTodoBtn" class="btn btn-primary">추가</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

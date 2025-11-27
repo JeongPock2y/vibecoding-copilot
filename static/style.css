@@ -1,0 +1,13 @@
+.calendar { background: #fff; border-radius: 8px; overflow: hidden; }
+.weekhead { background:#f8f9fa; font-weight:600; padding:8px 12px; }
+.week { display:flex; }
+.week .day-cell { flex:1; min-height:82px; padding:6px 8px; border-right:1px solid #eee; border-bottom:1px solid #eee; position:relative; cursor:pointer; }
+.week .day-cell:last-child { border-right: none; }
+.muted { color:#b3b3b3; background:#fbfbfb }
+.date-num { font-size:14px; font-weight:600 }
+.todo-count { position:absolute; top:6px; right:8px; font-size:12px }
+
+@media (max-width: 480px) {
+  .week .day-cell { min-height:72px; padding:6px; }
+  .date-num { font-size:12px }
+}
