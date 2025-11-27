@@ -3,6 +3,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const bsModal = new bootstrap.Modal(modalEl)
   let selectedDate = null
 
+  // signal JS loaded
+  try {
+    const status = document.getElementById('jsStatus')
+    if (status) {
+      status.textContent = 'JS Loaded'
+      status.classList.remove('bg-secondary')
+      status.classList.add('bg-success')
+    }
+    console.info('app.js: loaded')
+  } catch (e) {
+    console.warn('app.js: could not set JS status', e)
+  }
+
   async function fetchTodos(d) {
     const r = await fetch(`/api/todos?date=${d}`)
     return r.json()
@@ -153,9 +166,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const prev = document.getElementById('prevBtn')
   const next = document.getElementById('nextBtn')
   const todayBtn = document.getElementById('todayBtn')
-  if (prev) prev.addEventListener('click', (e) => { e.preventDefault(); ajaxLoadMonth(prev.href, 'right') })
-  if (next) next.addEventListener('click', (e) => { e.preventDefault(); ajaxLoadMonth(next.href, 'left') })
-  if (todayBtn) todayBtn.addEventListener('click', (e) => { e.preventDefault(); ajaxLoadMonth(todayBtn.href, 'right') })
+  if (prev) prev.addEventListener('click', (e) => { e.preventDefault(); console.log('nav prev clicked'); ajaxLoadMonth(prev.href, 'right') })
+  if (next) next.addEventListener('click', (e) => { e.preventDefault(); console.log('nav next clicked'); ajaxLoadMonth(next.href, 'left') })
+  if (todayBtn) todayBtn.addEventListener('click', (e) => { e.preventDefault(); console.log('nav today clicked'); ajaxLoadMonth(todayBtn.href, 'right') })
 
   // handle back/forward
   window.addEventListener('popstate', (e) => {
