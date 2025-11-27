@@ -42,12 +42,26 @@
               {% if day.weekday() >= 5 %}
                 {% set extra = extra + ' weekend' %}
               {% endif %}
+              {% if day == today %}
+                {% set extra = extra + ' today' %}
+              {% endif %}
               <div class="day day-cell{{ extra }}" data-date="{{ day.isoformat() }}">
                 <div class="date-num">{{ day.day }}</div>
                 {% set key = day.isoformat() %}
                 {% if key in todos_map %}
                   <div class="badge bg-success todo-count">{{ todos_map[key] }}</div>
                 {% endif %}
+
+                {# preview up to 2 items #}
+                <div class="preview-list">
+                  {% set items = todos_by_date.get(key, []) %}
+                  {% for it in items[:2] %}
+                    <div class="preview-item">{{ it.text[:36] }}{% if it.text|length > 36 %}…{% endif %}</div>
+                  {% endfor %}
+                  {% if items|length > 2 %}
+                    <div class="preview-more">+{{ items|length - 2 }} more</div>
+                  {% endif %}
+                </div>
               </div>
             {% endfor %}
           {% endfor %}

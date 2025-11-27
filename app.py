@@ -55,6 +55,22 @@ def month_todos_map(year, month):
     return {r['date']: r['c'] for r in rows}
 
 
+def month_todos(year, month):
+    """Return dict: date_iso -> list of todo dicts for the month (used for previews)."""
+    db = get_db()
+    start = date(year, month, 1)
+    _, last = calendar.monthrange(year, month)
+    end = date(year, month, last)
+    cur = db.execute('SELECT id, date, text, created_at FROM todos WHERE date BETWEEN ? AND ? ORDER BY id',
+                     (start.isoformat(), end.isoformat()))
+    rows = cur.fetchall()
+    out = {}
+    for r in rows:
+        d = r['date']
+        out.setdefault(d, []).append({'id': r['id'], 'text': r['text'], 'created_at': r['created_at']})
+    return out
+
+
 @app.route('/')
 def index():
     qy = request.args.get('year')
@@ -67,8 +83,9 @@ def index():
     month_days = list(cal.monthdatescalendar(year, month))
 
     todos_map = month_todos_map(year, month)
+    todos_by_date = month_todos(year, month)
 
-    return render_template('index.html', year=year, month=month, month_days=month_days, todos_map=todos_map)
+    return render_template('index.html', year=year, month=month, month_days=month_days, todos_map=todos_map, todos_by_date=todos_by_date, today=today)
 
 
 @app.route('/api/todos', methods=['GET', 'POST'])
