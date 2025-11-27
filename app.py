@@ -1,4 +1,4 @@
-from flask import Flask, g, render_template, request, jsonify, abort
+from flask import Flask, g, render_template, request, jsonify, abort, send_from_directory
 import sqlite3
 import os
 import calendar
@@ -101,6 +101,16 @@ def api_delete(tid):
     db.execute('DELETE FROM todos WHERE id = ?', (tid,))
     db.commit()
     return ('', 204)
+
+
+@app.route('/character.png')
+def character():
+    # serve the character image placed at repository root: '그림.PNG'
+    try:
+        return send_from_directory(app.root_path, '그림.PNG')
+    except Exception:
+        # fallback: 404 if not found
+        abort(404)
 
 
 if __name__ == '__main__':

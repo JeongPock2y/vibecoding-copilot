@@ -22,23 +22,39 @@
         </div>
       </div>
 
-      <div class="calendar shadow-sm">
-        <div class="d-flex weekhead">
-          <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
-        </div>
-        {% for week in month_days %}
-        <div class="d-flex week">
-          {% for day in week %}
-          <div class="day-cell {% if day.month != month %}muted{% endif %}" data-date="{{ day.isoformat() }}">
-            <div class="date-num">{{ day.day }}</div>
-            {% set key = day.isoformat() %}
-            {% if key in todos_map %}
-            <div class="badge bg-success todo-count">{{ todos_map[key] }}</div>
-            {% endif %}
-          </div>
+      <div class="calendar-wrapper position-relative">
+        <div class="calendar shadow-sm">
+          <div class="day head">일</div>
+          <div class="day head">월</div>
+          <div class="day head">화</div>
+          <div class="day head">수</div>
+          <div class="day head">목</div>
+          <div class="day head">금</div>
+          <div class="day head">토</div>
+
+          {# output all days in order so grid aligns #}
+          {% for week in month_days %}
+            {% for day in week %}
+              {% set extra = '' %}
+              {% if day.month != month %}
+                {% set extra = extra + ' muted' %}
+              {% endif %}
+              {% if day.weekday() >= 5 %}
+                {% set extra = extra + ' weekend' %}
+              {% endif %}
+              <div class="day day-cell{{ extra }}" data-date="{{ day.isoformat() }}">
+                <div class="date-num">{{ day.day }}</div>
+                {% set key = day.isoformat() %}
+                {% if key in todos_map %}
+                  <div class="badge bg-success todo-count">{{ todos_map[key] }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
           {% endfor %}
         </div>
-        {% endfor %}
+
+        <!-- decorative character image served from app root -->
+        <img class="character-img" src="{{ url_for('character') }}" alt="character">
       </div>
     </div>
 
