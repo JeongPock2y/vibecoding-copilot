@@ -104,4 +104,7 @@ def api_delete(tid):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # Allow configuring port via environment variable; default to 5000
+    port = int(os.environ.get('PORT', 5000))
+    # In development turn off the reloader to avoid duplicate processes
+    app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)

@@ -1,13 +1,8 @@
+nohup: ignoring input
  * Serving Flask app 'app'
- * Debug mode: on
+ * Debug mode: off
 [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
  * Running on all addresses (0.0.0.0)
  * Running on http://127.0.0.1:5000
  * Running on http://10.0.4.48:5000
 [33mPress CTRL+C to quit[0m
- * Restarting with stat
- * Debugger is active!
- * Debugger PIN: 815-654-594
-/workspaces/vibecoding-copilot/app.py:62: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
-  today = datetime.utcnow().date()
-127.0.0.1 - - [27/Nov/2025 07:27:30] "GET / HTTP/1.1" 200 -
