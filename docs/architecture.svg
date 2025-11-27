@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="420" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="strokeWidth" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#333" />
+    </marker>
+    <style>
+      .box { fill:#ffffff; stroke:#333; stroke-width:1.2 }
+      .title { font: bold 14px sans-serif }
+      .label { font: 12px sans-serif }
+    </style>
+  </defs>
+
+  <!-- Client -->
+  <rect x="30" y="40" width="180" height="80" rx="8" class="box" />
+  <text x="40" y="60" class="title">Mobile Browser</text>
+  <text x="40" y="80" class="label">(Responsive UI)</text>
+
+  <!-- Nginx -->
+  <rect x="260" y="30" width="160" height="100" rx="8" class="box" />
+  <text x="270" y="55" class="title">Nginx</text>
+  <text x="270" y="75" class="label">Reverse Proxy / HTTPS</text>
+
+  <!-- Gunicorn -->
+  <rect x="460" y="30" width="160" height="100" rx="8" class="box" />
+  <text x="470" y="55" class="title">Gunicorn</text>
+  <text x="470" y="75" class="label">WSGI Workers</text>
+
+  <!-- Flask -->
+  <rect x="660" y="30" width="200" height="100" rx="8" class="box" />
+  <text x="670" y="55" class="title">Flask App</text>
+  <text x="670" y="75" class="label">Routes, API, Calendar logic</text>
+
+  <!-- Arrows -->
+  <line x1="210" y1="80" x2="260" y2="80" stroke="#333" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="420" y1="80" x2="460" y2="80" stroke="#333" stroke-width="2" marker-end="url(#arrow)" />
+  <line x1="620" y1="80" x2="660" y2="80" stroke="#333" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- DB -->
+  <rect x="460" y="170" width="200" height="90" rx="8" class="box" />
+  <text x="470" y="195" class="title">SQLite (todos.db)</text>
+  <text x="470" y="215" class="label">Local file DB (single instance)</text>
+
+  <line x1="740" y1="115" x2="740" y2="170" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="660" y1="115" x2="560" y2="170" stroke="#333" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Cloud / EC2 -->
+  <rect x="20" y="10" width="860" height="380" rx="12" fill="none" stroke="#999" stroke-dasharray="6 4"/>
+  <text x="30" y="28" class="label">AWS EC2 (Ubuntu)</text>
+
+  <!-- Notes -->
+  <text x="40" y="320" class="label">Flow:</text>
+  <text x="40" y="340" class="label">1. Mobile 요청 → Nginx (SSL 종료) → Gunicorn → Flask</text>
+  <text x="40" y="360" class="label">2. Flask는 SQLite에 To-Do 저장. 트래픽 증가 시 RDS 권장.</text>
+
+</svg>

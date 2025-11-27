@@ -39,8 +39,8 @@ def close_connection(exception):
         db.close()
 
 
-@app.before_first_request
-def startup():
+with app.app_context():
+    # Flask 3 removed `before_first_request`; initialize DB at import/runtime startup
     init_db()
 
 
