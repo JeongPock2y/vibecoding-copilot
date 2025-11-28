@@ -17,7 +17,7 @@
           {% set next_month = (month % 12) + 1 %}
           {% set next_year = year + 1 if month == 12 else year %}
           <a id="prevBtn" class="btn btn-sm btn-outline-primary" href="/?year={{prev_year}}&month={{prev_month}}">◀ 이전</a>
-          <span class="mx-2">{{ year }}년 {{ month }}월</span>
+          <span id="headerLabel" class="mx-2">{{ year }}년 {{ month }}월</span>
           <a id="todayBtn" class="btn btn-sm btn-outline-secondary mx-2" href="/?year={{ today.year }}&month={{ today.month }}">이번달</a>
           <a id="nextBtn" class="btn btn-sm btn-outline-primary" href="/?year={{next_year}}&month={{next_month}}">다음 ▶</a>
         </div>

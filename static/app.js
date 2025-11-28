@@ -166,9 +166,40 @@ document.addEventListener('DOMContentLoaded', () => {
   const prev = document.getElementById('prevBtn')
   const next = document.getElementById('nextBtn')
   const todayBtn = document.getElementById('todayBtn')
-  if (prev) prev.addEventListener('click', (e) => { e.preventDefault(); console.log('nav prev clicked'); ajaxLoadMonth(prev.href, 'right') })
-  if (next) next.addEventListener('click', (e) => { e.preventDefault(); console.log('nav next clicked'); ajaxLoadMonth(next.href, 'left') })
-  if (todayBtn) todayBtn.addEventListener('click', (e) => { e.preventDefault(); console.log('nav today clicked'); ajaxLoadMonth(todayBtn.href, 'right') })
+  function parseYearMonthFromUrl(u) {
+    try {
+      const url = new URL(u, location.origin)
+      const y = url.searchParams.get('year')
+      const m = url.searchParams.get('month')
+      if (y && m) return { year: y, month: m }
+    } catch (e) { }
+    return null
+  }
+
+  function setHeaderLabel(year, month) {
+    const el = document.getElementById('headerLabel')
+    if (!el) return
+    el.textContent = `${year}년 ${month}월`
+  }
+
+  if (prev) prev.addEventListener('click', (e) => {
+    e.preventDefault(); console.log('nav prev clicked')
+    const parsed = parseYearMonthFromUrl(prev.href)
+    if (parsed) setHeaderLabel(parsed.year, parsed.month)
+    ajaxLoadMonth(prev.href, 'right')
+  })
+  if (next) next.addEventListener('click', (e) => {
+    e.preventDefault(); console.log('nav next clicked')
+    const parsed = parseYearMonthFromUrl(next.href)
+    if (parsed) setHeaderLabel(parsed.year, parsed.month)
+    ajaxLoadMonth(next.href, 'left')
+  })
+  if (todayBtn) todayBtn.addEventListener('click', (e) => {
+    e.preventDefault(); console.log('nav today clicked')
+    const parsed = parseYearMonthFromUrl(todayBtn.href)
+    if (parsed) setHeaderLabel(parsed.year, parsed.month)
+    ajaxLoadMonth(todayBtn.href, 'right')
+  })
 
   // handle back/forward
   window.addEventListener('popstate', (e) => {
@@ -186,6 +217,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (newChar && charImg) charImg.src = newChar.src
         bindDayCells()
         refreshCounts()
+        // update header immediately from location
+        const parsed = parseYearMonthFromUrl(location.href)
+        if (parsed) setHeaderLabel(parsed.year, parsed.month)
       }
     })
   })
